@@ -67,7 +67,6 @@ class MapViewDirections extends Component {
 			origin,
 			destination,
 			waypoints,
-			apikey,
 			onStart,
 			onReady,
 			onError,
@@ -102,7 +101,7 @@ class MapViewDirections extends Component {
 			waypoints: waypoints ? waypoints.split('|') : [],
 		});
 
-		this.fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, apikey, mode, language)
+		this.fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, mode, language)
 			.then(result => {
 				if (!this._mounted) return;
 				this.setState(result);
@@ -115,12 +114,12 @@ class MapViewDirections extends Component {
 			});
 	}
 
-	fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, apikey, mode, language) {
+	fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, mode, language) {
 
 		// Define the URL to call. Only add default parameters to the URL if it's a string.
 		let url = directionsServiceBaseUrl;
 		if (typeof (directionsServiceBaseUrl) === 'string') {
-			url += `?origin=${origin}&waypoints=${waypoints}&destination=${destination}&key=${apikey}&mode=${mode}&language=${language}`;
+			url += `?origin=${origin}&waypoints=${waypoints}&destination=${destination}&mode=${mode}&language=${language}`;
 		}
 
 		return fetch(url)
@@ -162,7 +161,6 @@ class MapViewDirections extends Component {
 			origin, // eslint-disable-line no-unused-vars
 			waypoints, // eslint-disable-line no-unused-vars
 			destination, // eslint-disable-line no-unused-vars
-			apikey, // eslint-disable-line no-unused-vars
 			onReady, // eslint-disable-line no-unused-vars
 			onError, // eslint-disable-line no-unused-vars
 			mode, // eslint-disable-line no-unused-vars
@@ -201,7 +199,6 @@ MapViewDirections.propTypes = {
 			longitude: PropTypes.number.isRequired,
 		}),
 	]),
-	apikey: PropTypes.string.isRequired,
 	onStart: PropTypes.func,
 	onReady: PropTypes.func,
 	onError: PropTypes.func,
