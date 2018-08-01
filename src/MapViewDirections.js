@@ -73,6 +73,7 @@ class MapViewDirections extends Component {
 			mode = 'driving',
 			language = 'en',
 			directionsServiceBaseUrl = 'https://maps.googleapis.com/maps/api/directions/json',
+      headers = {}
 		} = props;
 
 		if (!origin || !destination) {
@@ -101,7 +102,7 @@ class MapViewDirections extends Component {
 			waypoints: waypoints ? waypoints.split('|') : [],
 		});
 
-		this.fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, mode, language)
+		this.fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, mode, language, headers)
 			.then(result => {
 				if (!this._mounted) return;
 				this.setState(result);
@@ -114,7 +115,7 @@ class MapViewDirections extends Component {
 			});
 	}
 
-	fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, mode, language) {
+	fetchRoute(directionsServiceBaseUrl, origin, waypoints, destination, mode, language, headers) {
 
 		// Define the URL to call. Only add default parameters to the URL if it's a string.
 		let url = directionsServiceBaseUrl;
@@ -122,7 +123,7 @@ class MapViewDirections extends Component {
 			url += `?origin=${origin}&waypoints=${waypoints}&destination=${destination}&mode=${mode}&language=${language}`;
 		}
 
-		return fetch(url)
+		return fetch(url, { headers })
 			.then(response => response.json())
 			.then(json => {
 
@@ -206,6 +207,7 @@ MapViewDirections.propTypes = {
 	language: PropTypes.string,
 	resetOnChange: PropTypes.bool,
 	directionsServiceBaseUrl: PropTypes.string,
+  headers: PropTypes.string
 };
 
 export default MapViewDirections;
